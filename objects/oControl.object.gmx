@@ -28,7 +28,7 @@
             <string>targetx = 48;
 targety = 432;
 targetroom = rm_a5h01;
-screen_surface = 0;
+screen_surface = -1;
 global.targetroom = initroom;
 black = 0;
 global.classicmode = 0;
@@ -242,7 +242,7 @@ hndShades = shader_get_uniform(shGameBoy, "shades");
           <argument>
             <kind>1</kind>
             <string>global.opfullscreen = !global.opfullscreen;
-window_set_fullscreen(global.opfullscreen);
+set_fullscreen(global.opfullscreen);
 </string>
           </argument>
         </arguments>
@@ -346,10 +346,12 @@ if (1) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (fadedone &gt;= 1 &amp;&amp; room != rm_transition &amp;&amp; room != rm_subscreen &amp;&amp; room != itemroom &amp;&amp; room != rm_death) {
+            <string>//
+if (fadedone &gt;= 1 &amp;&amp; room != rm_transition &amp;&amp; room != rm_subscreen &amp;&amp; room != itemroom &amp;&amp; room != rm_death) {
     global.transitiontype = 0;
     event_user(4);
 }
+//
 if (!init) {
     if (os_type != os_android) {
         check_keys();
@@ -358,12 +360,14 @@ if (!init) {
     if (kExit &amp;&amp; global.opexitkeyenable) game_end();
     if (kStart &amp;&amp; kStartPushedSteps == 0) event_user(0);
 }
+//
 if (global.ingame == 1) {
     if (malpha &gt; -1) malpha -= 0.02;
     if (malpha &lt;= 0) malpha = 1;
     markfr += 0.25;
     if (markfr &gt; 4) markfr = 0;
     global.roomtime += 1;
+    //
     hpalarm = 0;
     if (global.maxhealth == 99) {
         if (global.playerhealth &lt; 50) hpalarm = 1;
@@ -374,6 +378,7 @@ if (global.ingame == 1) {
         if (global.playerhealth &lt; 60) hpalarm = 2;
         if (global.playerhealth &lt; 20) hpalarm = 3;
     }
+    //
     if (hudflash &gt; 0) {
         hudflash -= 1;
         if (hudflashfx &gt; 0) {
@@ -381,10 +386,12 @@ if (global.ingame == 1) {
         } else hudflashfx = 4;
     }
 }
+// view:
 view_wport[0] = 320;
 view_wview[0] = 320;
 view_hport[0] = 240;
 view_hview[0] = 240;
+// display offset:
 if (window_get_fullscreen()) {
     if (global.opscale == 0) {
         if (display_get_height() &lt; display_get_width()) {
@@ -400,6 +407,7 @@ if (window_get_fullscreen()) {
     displayx = window_get_width() / 2 - 320 * display_scale / 2;
     displayy = window_get_height() / 2 - 240 * display_scale / 2;
 }
+//
 if (!surface_exists(gui_surface)) gui_surface = surface_create(320, 240);
 if (surface_exists(gui_surface)) {
     surface_set_target(gui_surface);
@@ -407,14 +415,19 @@ if (surface_exists(gui_surface)) {
     if (global.ingame &amp;&amp; displaygui &amp;&amp; instance_exists(oCharacter)) draw_gui();
     surface_reset_target();
 }
+//
 if (debug &gt; 0) {
     global.playerhealth = global.maxhealth;
     global.missiles = 99;
     global.smissiles = 99;
     global.pbombs = 99;
 }
+//
 if (black &gt; 0) black -= 1;
+// a workaround for Alt getting stuck on Alt+Tab:
 if (os_is_paused()) keyboard_clear(vk_alt);
+// on HTML5, keep the game in center of the tab:
+if (os_is_browser) set_fullscreen(global.opfullscreen);
 </string>
           </argument>
         </arguments>
@@ -437,8 +450,14 @@ if (os_is_paused()) keyboard_clear(vk_alt);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>surface_free(screen_surface);
-if (file_exists(working_directory + "/tempscr")) file_delete(working_directory + "/tempscr");
+            <string>if (surface_exists(screen_surface)) {
+    surface_free(screen_surface);
+}
+if (os_is_native) {
+    if (file_exists(working_directory + "/tempscr")) {
+        file_delete(working_directory + "/tempscr");
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -466,7 +485,11 @@ surface_set_target(screen_surface);
 draw_clear(c_black);
 if (surface_exists(application_surface)) draw_surface(application_surface, 0, 0);
 surface_reset_target();
-if (surface_exists(application_surface)) surface_save(application_surface, working_directory + "/tempscr");
+if (os_is_native) {
+    if (surface_exists(application_surface)) {
+        surface_save(application_surface, working_directory + "/tempscr");
+    }
+}
 </string>
           </argument>
         </arguments>

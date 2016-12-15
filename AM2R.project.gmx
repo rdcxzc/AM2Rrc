@@ -2421,6 +2421,7 @@
       <script>scripts\set_default_joypad.gml</script>
       <script>scripts\set_default_xjoypad.gml</script>
       <script>scripts\set_window_scale.gml</script>
+      <script>scripts\set_fullscreen.gml</script>
       <script>scripts\ApplyLightPreset.gml</script>
     </scripts>
     <scripts name="BG">
@@ -3738,6 +3739,10 @@
       <room>rooms\rm_a8a14</room>
     </rooms>
   </rooms>
+  <constants number="2">
+    <constant name="os_is_native">(os_browser == browser_not_a_browser)</constant>
+    <constant name="os_is_browser">(os_browser != browser_not_a_browser)</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

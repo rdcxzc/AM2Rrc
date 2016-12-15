@@ -202,8 +202,7 @@ display_reset(0, global.opvsync);
     if (oControl.kLeft &gt; 0 &amp;&amp; oControl.kLeftPushedSteps == 0 || oControl.kRight &gt; 0 &amp;&amp; oControl.kRightPushedSteps == 0 &amp;&amp; global.curropt &lt; 9 &amp;&amp; oControl.kDown == 0 &amp;&amp; oControl.kUp == 0) {
         if (global.curropt == 0) {
             global.opfullscreen = !global.opfullscreen;
-            if (global.opfullscreen) { }
-            window_set_fullscreen(global.opfullscreen);
+            set_fullscreen(global.opfullscreen);
             if (!global.opfullscreen) {
                 global.opscale = 1;
                 alarm[1] = 1;

@@ -4,9 +4,11 @@ load_character_vars();
 reset_map();
 init_map();
 filename = "data.sav";
-file_copy(filename, filename + "d");
-crypt(filename + "d", "XOR_DFJykQ8xX3PuNnkLt6QviqALOLF8cxIDx1D63DAdph4KGQ4rOJ7", 2);
-fid = file_text_open_read(filename + "d");
+if (os_is_native) {
+    file_copy(filename, filename + "d");
+    crypt(filename + "d", "XOR_DFJykQ8xX3PuNnkLt6QviqALOLF8cxIDx1D63DAdph4KGQ4rOJ7", 2);
+    fid = file_text_open_read(filename + "d");
+} else fid = file_text_open_read(filename);
 header = rc4(file_text_read_string(fid), "HEADER_KEY");
 file_text_readln(fid);
 if (header != "[AM2R UnlockData V7.0]") {

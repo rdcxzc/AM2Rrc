@@ -15,4 +15,4 @@ repeat (4) {
     i += 1;
 }
 file_text_close(fid);
-crypt(filename, "XOR_DFJykQ8xX3PuNnkLt6QviqALOLF8cxIDx1D63DAdph4KGQ4rOJ7", 2);
+if (os_is_native) crypt(filename, "XOR_DFJykQ8xX3PuNnkLt6QviqALOLF8cxIDx1D63DAdph4KGQ4rOJ7", 2);

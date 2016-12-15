@@ -2,3 +2,7 @@ sprites/images/
 sound/audio/
 background/images/
 fonts/*.png
+Configs/Default/XBoxOne/
+Configs/Default/PSVita/
+Configs/Default/PS3/
+Configs/Default/PS4/
