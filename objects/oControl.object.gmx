@@ -811,7 +811,10 @@ if (surface_exists(application_surface)) draw_game_surface(displayx, displayy, d
             <kind>1</kind>
             <string>if (global.ingame) {
     if (surface_exists(gui_surface)) {
-        if (global.ingame &amp;&amp; displaygui &amp;&amp; room != rm_transition &amp;&amp; instance_exists(oCharacter)) draw_surface_ext(gui_surface, displayx, displayy, display_scale, display_scale, 0, -1, 1);
+        if (global.ingame &amp;&amp; displaygui &amp;&amp; room != rm_transition &amp;&amp; instance_exists(oCharacter)) {
+            var d = application_get_position();
+            draw_surface_ext(gui_surface, displayx - d[0], displayy - d[1], display_scale, display_scale, 0, -1, 1);
+        }
     }
 }
 if (black &gt; 0) {
